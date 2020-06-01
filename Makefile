@@ -6,5 +6,7 @@ publish:
 	npm publish --dry-run
 gendiff:
 	npx babel-node src/bin/gendiff.js before.json after.json
+test:
+	npx jest
 test-coverage:
-	npm test -- --coverage --coverageProvider=v8
+	npx jest -- --coverage
