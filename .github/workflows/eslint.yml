@@ -16,10 +16,6 @@ jobs:
       - name: Eslint
         run: 
           make install lint
-      
-      - name: Babel
-        run:
-          make build   
         
         env:
           CI: true
