@@ -16,6 +16,9 @@ jobs:
       - name: Eslint
         run: 
           make install lint
+      - name: Jest
+        run:
+          npx jest
         
         env:
           CI: true
