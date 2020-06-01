@@ -22,3 +22,13 @@ jobs:
         
         env:
           CI: true
+      - name: Test & publish code coverage
+        # Publish code coverage on Code Climate
+        # https://github.com/paambaati/codeclimate-action
+        uses: paambaati/codeclimate-action@v2.6.0
+        # Add Code Climate secret key
+        env:
+          CLIRMA: ${{ secrets.CLIRMA }}
+        with:
+          coverageCommand: make test-coverage
+          debug: true
