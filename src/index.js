@@ -2,13 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import format from './utils';
 
-const parseFileToJson = (filePath) => {
-  return JSON.parse(
-    fs.readFileSync(
-      path.resolve(process.cwd(), filePath),
-    ),
-  );
-};
+const parseFileToJson = (filePath) => JSON.parse(
+  fs.readFileSync(
+    path.resolve(process.cwd(), filePath),
+  ),
+);
 
 const gendiff = (file1, file2) => {
   const objFileOne = parseFileToJson(file1);
