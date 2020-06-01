@@ -27,3 +27,7 @@ test('gendiff YML', () => {
   expect(gendiff('__tests__/fixtures/before1.yml', '__tests__/fixtures/after1.yml')).toEqual(result1);
   expect(gendiff('__tests__/fixtures/before2.yml', '__tests__/fixtures/after2.yml')).toEqual(result2);
 });
+
+test('gendiff INI', () => {
+  expect(gendiff('__tests__/fixtures/before1.ini', '__tests__/fixtures/after1.ini')).toEqual(result1);
+});
