@@ -1,18 +1,19 @@
 import fs from 'fs';
 import path from 'path';
+import format from './utils';
+
+const parseFileToJson = (filePath) => {
+  return JSON.parse(
+    fs.readFileSync(
+      path.resolve(process.cwd(), filePath),
+    ),
+  );
+};
 
 const gendiff = (file1, file2) => {
-  const currentDirectory = process.cwd();
-  const objFileOne = JSON.parse(
-    fs.readFileSync(
-      path.resolve(currentDirectory, file1),
-    ),
-  );
-  const objFileTwo = JSON.parse(
-    fs.readFileSync(
-      path.resolve(currentDirectory, file2),
-    ),
-  );
+  const objFileOne = parseFileToJson(file1);
+  const objFileTwo = parseFileToJson(file2);
+
   const keysOne = Object.keys(objFileOne);
   const keysTwo = Object.keys(objFileTwo);
 
@@ -29,6 +30,7 @@ const gendiff = (file1, file2) => {
     }
     return acc;
   }, []);
+
   const resultFileTwo = keysTwo.reduce((acc, element) => {
     if (!keysOne.includes(element)) {
       return [...acc, `+ ${element}: ${objFileTwo[element]}`];
@@ -37,7 +39,7 @@ const gendiff = (file1, file2) => {
   }, []);
 
   const result = [...resultFileOne, ...resultFileTwo];
-  return `{\n  ${result.join('\n  ')}\n}`;
+  return format(result);
 };
 
 export default gendiff;
