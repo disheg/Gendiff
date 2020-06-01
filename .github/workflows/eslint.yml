@@ -1,4 +1,3 @@
-
 name: eslint
 on:
   - push
