@@ -18,7 +18,12 @@ const result2 = `{
   + job: Microsoft
 }`;
 
-test('gendiff', () => {
+test('gendiff JSON', () => {
   expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json')).toEqual(result1);
   expect(gendiff('__tests__/fixtures/before2.json', '__tests__/fixtures/after2.json')).toEqual(result2);
+});
+
+test('gendiff YML', () => {
+  expect(gendiff('__tests__/fixtures/before1.yml', '__tests__/fixtures/after1.yml')).toEqual(result1);
+  expect(gendiff('__tests__/fixtures/before2.yml', '__tests__/fixtures/after2.yml')).toEqual(result2);
 });

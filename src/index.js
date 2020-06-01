@@ -1,17 +1,10 @@
 import _ from 'lodash';
-import fs from 'fs';
-import path from 'path';
 import format from './utils';
-
-const parseFileToJson = (filePath) => JSON.parse(
-  fs.readFileSync(
-    path.resolve(process.cwd(), filePath),
-  ),
-);
+import parserToObj from './modules/parsers.js';
 
 export default (file1, file2) => {
-  const objFileOne = parseFileToJson(file1);
-  const objFileTwo = parseFileToJson(file2);
+  const objFileOne = parserToObj(file1);
+  const objFileTwo = parserToObj(file2);
 
   const keysOne = Object.keys(objFileOne);
   const keysTwo = Object.keys(objFileTwo);

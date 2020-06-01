@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "commander": "^5.1.0",
+    "js-yaml": "^3.14.0",
     "lodash": "^4.17.15",
     "npm": "^6.14.5"
   },
