@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import stylish from './modules/stylish.js';
+import render from './formatters/index.js';
 import parserToObj from './modules/parsers.js';
 
 const makeType = (key, value, type = null) => {
@@ -19,7 +19,7 @@ const makeChangedObj = (objFileOne, objFileTwo) => {
     if (!_.has(objFileTwo, key)) {
       acc.push(makeType(key, objFileOne[key], 'deleted'));
     } else if (_.isObject(objFileOne[key]) && _.isObject(objFileTwo[key])) {
-      acc.push(makeType(key, makeChangedObj(objFileOne[key], objFileTwo[key])));
+      acc.push(makeType(key, makeChangedObj(objFileOne[key], objFileTwo[key]), 'nested'));
     } else if (objFileOne[key] === objFileTwo[key]) {
       acc.push(makeType(key, objFileOne[key], 'unchanged'));
     } else if (!_.has(objFileOne, key)) {
@@ -37,9 +37,9 @@ const makeChangedObj = (objFileOne, objFileTwo) => {
   return result;
 };
 
-export default (file1, file2) => {
+export default (file1, file2, format) => {
   const objFileOne = parserToObj(file1);
   const objFileTwo = parserToObj(file2);
 
-  return stylish(makeChangedObj(objFileOne, objFileTwo));
+  return render(makeChangedObj(objFileOne, objFileTwo), format);
 };

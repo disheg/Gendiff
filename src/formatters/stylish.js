@@ -7,7 +7,6 @@ export default (obj) => {
     added: '+ ',
     changed: '+ ',
   };
-
   const stylishObj = (unchangedObj, count) => { // Stilish unchanged object
     const entries = Object.entries(unchangedObj);
     const str = entries.reduce((acc, [key, value]) => {
@@ -19,7 +18,7 @@ export default (obj) => {
     return str.join('\n');
   };
 
-  const format = (arr, count = 2) => {
+  const render = (arr, count = 2) => {
     const result = arr.reduce((acc, element) => {
       const sign = signs[element.type];
       if (element.type === 'changed') {
@@ -31,18 +30,18 @@ export default (obj) => {
           ? `{\n${stylishObj(element.beforeValue, count + 2)}\n${' '.repeat(count + 2)}}`
           : beforeValue;
         acc.push(`${' '.repeat(count)}${sign}${element.key}: ${currentValue}\n${' '.repeat(count)}- ${element.key}: ${beforeValue}`);
-      } else if (element.type) {
+      } else if (element.type !== 'nested') {
         let { value } = element;
         if (_.isObject(element.value)) {
           value = `{\n${stylishObj(element.value, count + 2)}\n${' '.repeat(count + 2)}}`;
         }
         acc.push(`${' '.repeat(count)}${sign}${element.key}: ${value}`);
       } else {
-        acc.push(`${' '.repeat(count)}  ${element.key}: {\n${format(element.value, count + 4)}\n${' '.repeat(count + 2)}}`);
+        acc.push(`${' '.repeat(count)}  ${element.key}: {\n${render(element.value, count + 4)}\n${' '.repeat(count + 2)}}`);
       }
       return acc;
     }, []);
     return `${result.join('\n')}`;
   };
-  return `{\n${format(obj)}\n}`;
+  return `{\n${render(obj)}\n}`;
 };
