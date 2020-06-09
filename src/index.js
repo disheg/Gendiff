@@ -6,33 +6,27 @@ const makeChangedObj = (objFileOne, objFileTwo) => {
   const keysOne = Object.keys(objFileOne);
   const keysTwo = Object.keys(objFileTwo);
   const keys = _.union(keysOne, keysTwo);
-
-  const result = keys.map((key) => {
-    let type;
-    let value = objFileOne[key];
-    if (!_.has(objFileTwo, key)) {
-      type = 'deleted';
-    } else if (_.isObject(objFileOne[key]) && _.isObject(objFileTwo[key])) {
-      return { key, value: makeChangedObj(objFileOne[key], objFileTwo[key]) };
-    } else if (objFileOne[key] === objFileTwo[key]) {
-      type = 'unchanged';
-    } else if (!_.has(objFileOne, key)) {
-      type = 'added';
-      value = objFileTwo[key];
-    } else if (_.has(objFileOne, key) && _.has(objFileTwo, key)) {
-      return {
-        key,
-        currentValue: objFileTwo[key],
-        beforeValue: objFileOne[key],
-        type: 'changed',
-      };
+  const makeType = (key, objOne, objTwo) => {
+    if (!_.has(objTwo, key)) {
+      return { key, value: objOne[key], type: 'deleted' };
+    }
+    if (_.isObject(objOne[key]) && _.isObject(objTwo[key])) {
+      return { key, value: makeChangedObj(objOne[key], objTwo[key]) };
+    }
+    if (objOne[key] === objTwo[key]) {
+      return { key, value: objOne[key], type: 'unchanged' };
+    }
+    if (!_.has(objOne, key)) {
+      return { key, value: objTwo[key], type: 'added' };
     }
     return {
       key,
-      value,
-      type,
-    }
-  });
+      currentValue: objTwo[key],
+      beforeValue: objOne[key],
+      type: 'changed',
+    };
+  };
+  const result = keys.map((key) => makeType(key, objFileOne, objFileTwo));
   return result;
 };
 

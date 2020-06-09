@@ -24,11 +24,11 @@ export default (obj) => {
       const sign = signs[element.type];
       if (element.type === 'changed') {
         let { currentValue, beforeValue } = element;
-        currentValue = _.isObject(element.currentValue) ?
-          `{\n${stylishObj(element.currentValue, count + 2)}\n${' '.repeat(count + 2)}}`
+        currentValue = _.isObject(element.currentValue)
+          ? `{\n${stylishObj(element.currentValue, count + 2)}\n${' '.repeat(count + 2)}}`
           : currentValue;
-        beforeValue = _.isObject(element.beforeValue) ?
-          `{\n${stylishObj(element.beforeValue, count + 2)}\n${' '.repeat(count + 2)}}`
+        beforeValue = _.isObject(element.beforeValue)
+          ? `{\n${stylishObj(element.beforeValue, count + 2)}\n${' '.repeat(count + 2)}}`
           : beforeValue;
         acc.push(`${' '.repeat(count)}${sign}${element.key}: ${currentValue}\n${' '.repeat(count)}- ${element.key}: ${beforeValue}`);
       } else if (element.type) {
