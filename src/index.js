@@ -2,31 +2,38 @@ import _ from 'lodash';
 import stylish from './modules/stylish.js';
 import parserToObj from './modules/parsers.js';
 
+const makeType = (key, obj, type) => {
+  const result = {
+    key,
+    value: obj[key],
+    type,
+  };
+  return result;
+};
+
 const makeChangedObj = (objFileOne, objFileTwo) => {
   const keysOne = Object.keys(objFileOne);
   const keysTwo = Object.keys(objFileTwo);
   const keys = _.union(keysOne, keysTwo);
-  const makeType = (key, objOne, objTwo) => {
-    if (!_.has(objTwo, key)) {
-      return { key, value: objOne[key], type: 'deleted' };
+  const result = keys.reduce((acc, key) => {
+    if (!_.has(objFileTwo, key)) {
+      acc.push(makeType(key, objFileOne, 'deleted'));
+    } else if (_.isObject(objFileOne[key]) && _.isObject(objFileTwo[key])) {
+      acc.push({ key, value: makeChangedObj(objFileOne[key], objFileTwo[key]) });
+    } else if (objFileOne[key] === objFileTwo[key]) {
+      acc.push(makeType(key, objFileOne, 'unchanged'));
+    } else if (!_.has(objFileOne, key)) {
+      acc.push(makeType(key, objFileTwo, 'added'));
+    } else {
+      acc.push({
+        key,
+        currentValue: objFileTwo[key],
+        beforeValue: objFileOne[key],
+        type: 'changed',
+      });
     }
-    if (_.isObject(objOne[key]) && _.isObject(objTwo[key])) {
-      return { key, value: makeChangedObj(objOne[key], objTwo[key]) };
-    }
-    if (objOne[key] === objTwo[key]) {
-      return { key, value: objOne[key], type: 'unchanged' };
-    }
-    if (!_.has(objOne, key)) {
-      return { key, value: objTwo[key], type: 'added' };
-    }
-    return {
-      key,
-      currentValue: objTwo[key],
-      beforeValue: objOne[key],
-      type: 'changed',
-    };
-  };
-  const result = keys.map((key) => makeType(key, objFileOne, objFileTwo));
+    return acc;
+  }, []);
   return result;
 };
 
