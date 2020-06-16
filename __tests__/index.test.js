@@ -92,7 +92,7 @@ test('from INI Plain', () => {
   expect(gendiff('__tests__/fixtures/before1.ini', '__tests__/fixtures/after1.ini', 'plain')).toEqual(result1Plain);
 });
 
-const resultJSON = `[{"key":"name","value":"Petya","children":[],"type":"unchanged"},{"key":"age","currentValue":32,"beforeValue":30,"children":[],"type":"changed"},{"key":"city","value":"Stockholm","children":[],"type":"unchanged"},{"key":"job","value":"Microsoft","children":[],"type":"added"}]`;
+const resultJSON = '[{"key":"name","value":"Petya","children":[],"type":"unchanged"},{"key":"age","currentValue":32,"beforeValue":30,"children":[],"type":"changed"},{"key":"city","value":"Stockholm","children":[],"type":"unchanged"},{"key":"job","value":"Microsoft","children":[],"type":"added"}]';
 
 test('from JSON to JSON', () => {
   expect(gendiff('__tests__/fixtures/before2.json', '__tests__/fixtures/after2.json', 'json')).toEqual(resultJSON);
