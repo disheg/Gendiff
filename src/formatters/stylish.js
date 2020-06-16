@@ -1,47 +1,48 @@
 import _ from 'lodash';
 
-export default (obj) => {
-  const signs = {
-    unchanged: '  ',
-    deleted: '- ',
-    added: '+ ',
-    changed: '+ ',
-  };
-  const stylishObj = (unchangedObj, count) => { // Stilish unchanged object
-    const entries = Object.entries(unchangedObj);
-    const str = entries.reduce((acc, [key, value]) => {
-      let currentValue = value;
-      if (_.isObject(value)) currentValue = `{\n${stylishObj(value, count + 2)}\n${' '.repeat(count + 4)}}`;
-      acc.push(`${' '.repeat(count + 2)}  ${key}: ${currentValue}`);
-      return acc;
-    }, []);
-    return str.join('\n');
-  };
+const hasChildren = (obj) => (obj.children.length !== 0);
 
-  const render = (arr, count = 2) => {
-    const result = arr.reduce((acc, element) => {
-      const sign = signs[element.type];
-      if (element.type === 'changed') {
-        let { currentValue, beforeValue } = element;
-        currentValue = _.isObject(element.currentValue)
-          ? `{\n${stylishObj(element.currentValue, count + 2)}\n${' '.repeat(count + 2)}}`
-          : currentValue;
-        beforeValue = _.isObject(element.beforeValue)
-          ? `{\n${stylishObj(element.beforeValue, count + 2)}\n${' '.repeat(count + 2)}}`
-          : beforeValue;
-        acc.push(`${' '.repeat(count)}${sign}${element.key}: ${currentValue}\n${' '.repeat(count)}- ${element.key}: ${beforeValue}`);
-      } else if (element.type !== 'nested') {
-        let { value } = element;
-        if (_.isObject(element.value)) {
-          value = `{\n${stylishObj(element.value, count + 2)}\n${' '.repeat(count + 2)}}`;
-        }
-        acc.push(`${' '.repeat(count)}${sign}${element.key}: ${value}`);
-      } else {
-        acc.push(`${' '.repeat(count)}  ${element.key}: {\n${render(element.value, count + 4)}\n${' '.repeat(count + 2)}}`);
-      }
-      return acc;
-    }, []);
-    return `${result.join('\n')}`;
-  };
-  return `{\n${render(obj)}\n}`;
+const stylishObj = (obj, space) => {
+  const entries = Object.entries(obj);
+  const result = entries.map(([key, value]) => {
+    if (_.isObject(value)) return `\n${' '.repeat(space + 2)}  ${key}: ${stylishObj(value, space + 4)}`;
+    return `\n${' '.repeat(space + 2)}  ${key}: ${value}`;
+  });
+  return `{${result.join('')}\n${' '.repeat(space)}}`;
 };
+
+const renderString = (obj, space) => {
+  const { key, type } = obj;
+  const value = _.isObject(obj.value)
+    ? stylishObj(obj.value, space + 2)
+    : obj.value;
+  const currentValue = _.isObject(obj.currentValue)
+    ? stylishObj(obj.currentValue, space + 2)
+    : obj.currentValue;
+  const beforeValue = _.isObject(obj.beforeValue)
+    ? stylishObj(obj.beforeValue, space + 2)
+    : obj.beforeValue;
+  switch (type) {
+    case 'unchanged':
+      return `${' '.repeat(space)}  ${key}: ${value}`;
+    case 'deleted':
+      return `${' '.repeat(space)}- ${key}: ${value}`;
+    case 'added':
+      return `${' '.repeat(space)}+ ${key}: ${value}`;
+    case 'changed':
+      return `${' '.repeat(space)}+ ${key}: ${currentValue}\n${' '.repeat(space)}- ${key}: ${beforeValue}`;
+    case 'nested':
+      return null;
+    default:
+      return new Error(`Unknown type: ${type}`);
+  }
+};
+
+const stylish = (obj, space = 0) => {
+  const render = obj.map((element) => {
+    if (hasChildren(element)) return `\n${' '.repeat(space + 2)}  ${element.key}: ${stylish(element.children, space + 4)}`;
+    return `\n${renderString(element, space + 2)}`;
+  });
+  return `{${render.filter((element) => element !== null).join('')}\n${' '.repeat(space)}}`;
+};
+export default stylish;

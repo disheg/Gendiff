@@ -2,10 +2,11 @@ import _ from 'lodash';
 import render from './formatters/index.js';
 import parserToObj from './modules/parsers.js';
 
-const makeType = (key, value, type = null) => {
+const makeType = (key, value, type = null, children = []) => {
   const result = {
     key,
     value,
+    children,
     type,
   };
   return result;
@@ -19,7 +20,7 @@ const makeChangedObj = (objFileOne, objFileTwo) => {
     if (!_.has(objFileTwo, key)) {
       acc.push(makeType(key, objFileOne[key], 'deleted'));
     } else if (_.isObject(objFileOne[key]) && _.isObject(objFileTwo[key])) {
-      acc.push(makeType(key, makeChangedObj(objFileOne[key], objFileTwo[key]), 'nested'));
+      acc.push(makeType(key, null, 'nested', makeChangedObj(objFileOne[key], objFileTwo[key])));
     } else if (objFileOne[key] === objFileTwo[key]) {
       acc.push(makeType(key, objFileOne[key], 'unchanged'));
     } else if (!_.has(objFileOne, key)) {
@@ -29,6 +30,7 @@ const makeChangedObj = (objFileOne, objFileTwo) => {
         key,
         currentValue: objFileTwo[key],
         beforeValue: objFileOne[key],
+        children: [],
         type: 'changed',
       });
     }

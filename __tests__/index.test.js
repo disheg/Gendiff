@@ -26,7 +26,7 @@ const result1rec = `{
       + setting5: {
             key5: value5
             kor: {
-              ser: ses
+                ser: ses
             }
         }
     }
@@ -66,8 +66,7 @@ test('from INI', () => {
 });
 
 
-const result1Plain = `
-Property 'timeout' was changed from '50' to '20'
+const result1Plain = `Property 'timeout' was changed from '50' to '20'
 Property 'proxy' was deleted
 Property 'follow' was deleted
 Property 'verbose' was added with value: 'true'`;
@@ -81,6 +80,7 @@ Property 'group1.baz' was changed from 'bas' to 'bars'
 Property 'group1.nest' was changed from [complex value] to 'str'
 Property 'group2' was deleted
 Property 'group3' was added with value: [complex value]`;
+
 test('from JSON', () => {
   expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json', 'plain')).toEqual(result1PlainRec);
   expect(gendiff('__tests__/fixtures/before1.ini', '__tests__/fixtures/after1.ini', 'plain')).toEqual(result1Plain);

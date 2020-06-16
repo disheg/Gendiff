@@ -1,29 +1,28 @@
 import _ from 'lodash';
 
-export default (obj) => {
-  const renderPlain = (arr, parent = '') => {
-    const result = arr.map((element) => {
-      let { currentValue, beforeValue } = element;
-      let { value } = element;
-      switch (element.type) {
-        case 'changed':
-          currentValue = _.isObject(currentValue) ? '[complex value]' : `'${currentValue}'`;
-          beforeValue = _.isObject(beforeValue) ? '[complex value]' : `'${beforeValue}'`;
-          return `Property '${parent}${element.key}' was changed from ${beforeValue} to ${currentValue}`;
-        case 'deleted':
-          return `Property '${parent}${element.key}' was deleted`;
-        case 'added':
-          value = _.isObject(value) ? '[complex value]' : `'${value}'`;
-          return `Property '${parent}${element.key}' was added with value: ${value}`;
-        case 'unchanged':
-          return null;
-        case 'nested':
-          return `${renderPlain(element.value, `${parent}${element.key}.`).filter((node) => node !== null).join('\n')}`;
-        default:
-          return new Error('Error');
-      }
-    });
-    return result;
-  };
-  return renderPlain(obj).join('\n');
+const renderToType = (value) => (_.isObject(value) ? '[complex value]' : `'${value}'`);
+
+const plain = (obj, parent = '') => {
+  const result = obj.map((element) => {
+    const { key, type, children } = element;
+    const value = renderToType(element.value);
+    const beforeValue = renderToType(element.beforeValue);
+    const currentValue = renderToType(element.currentValue);
+    switch (type) {
+      case 'unchanged':
+        return null;
+      case 'changed':
+        return `Property '${parent}${key}' was changed from ${beforeValue} to ${currentValue}`;
+      case 'deleted':
+        return `Property '${parent}${key}' was deleted`;
+      case 'added':
+        return `Property '${parent}${key}' was added with value: ${value}`;
+      case 'nested':
+        return plain(children, `${parent}${key}.`);
+      default:
+        return new Error(`Unknown type: ${type}`);
+    }
+  });
+  return result.filter((element) => element !== null).join('\n');
 };
+export default plain;
