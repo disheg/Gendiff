@@ -54,7 +54,7 @@ const result2 = `{
   + job: Microsoft
 }`;
 test('from JSON', () => {
-  expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json', 'json')).toEqual(result1rec);
+  expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json')).toEqual(result1rec);
   expect(gendiff('__tests__/fixtures/before2.json', '__tests__/fixtures/after2.json')).toEqual(result2);
 });
 test('from YML', () => {
@@ -70,7 +70,7 @@ const result1Plain = `Property 'timeout' was changed from '50' to '20'
 Property 'proxy' was deleted
 Property 'follow' was deleted
 Property 'verbose' was added with value: 'true'`;
-const result1PlainRec = `Property 'common.setting2' was deleted
+const result1PlainTree = `Property 'common.setting2' was deleted
 Property 'common.setting3' was changed from 'true' to [complex value]
 Property 'common.setting6.ops' was added with value: 'vops'
 Property 'common.follow' was added with value: 'false'
@@ -81,13 +81,19 @@ Property 'group1.nest' was changed from [complex value] to 'str'
 Property 'group2' was deleted
 Property 'group3' was added with value: [complex value]`;
 
-test('from JSON', () => {
-  expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json', 'plain')).toEqual(result1PlainRec);
+test('from JSON Plain', () => {
+  expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json', 'plain')).toEqual(result1PlainTree);
   expect(gendiff('__tests__/fixtures/before1.ini', '__tests__/fixtures/after1.ini', 'plain')).toEqual(result1Plain);
 });
-test('from YML', () => {
+test('from YML Plain', () => {
   expect(gendiff('__tests__/fixtures/before1.yml', '__tests__/fixtures/after1.yml', 'plain')).toEqual(result1Plain);
 });
-test('from INI', () => {
+test('from INI Plain', () => {
   expect(gendiff('__tests__/fixtures/before1.ini', '__tests__/fixtures/after1.ini', 'plain')).toEqual(result1Plain);
+});
+
+const resultJSON = `[{"key":"name","value":"Petya","children":[],"type":"unchanged"},{"key":"age","currentValue":32,"beforeValue":30,"children":[],"type":"changed"},{"key":"city","value":"Stockholm","children":[],"type":"unchanged"},{"key":"job","value":"Microsoft","children":[],"type":"added"}]`;
+
+test('from JSON to JSON', () => {
+  expect(gendiff('__tests__/fixtures/before2.json', '__tests__/fixtures/after2.json', 'json')).toEqual(resultJSON);
 });
