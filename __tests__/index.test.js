@@ -1,5 +1,11 @@
 import { test, expect } from '@jest/globals';
 import gendiff from '../src/index.js';
+import fs from 'fs';
+import path from 'path';
+
+let resultDefault;
+let reaultPlainTree;
+let resultJson;
 
 beforeAll(() => {
   const getFixturesPath = (filename) => {
@@ -8,9 +14,9 @@ beforeAll(() => {
   const readFile = (filename) => {
     return fs.readFileSync(getFixturesPath(filename), 'utf-8');
   };
-  const resultDefault = readFile('resultDefault.txt');
-  const resultPlainTree = readFile('resultPlainTree.txt');
-  const resultJson = readFile('result.json')
+  resultDefault = readFile('resultDefault.txt');
+  resultPlainTree = readFile('resultPlainTree.txt');
+  resultJson = readFile('result.json')
 });
 
 test('default Format', () => {
