@@ -8,10 +8,8 @@ let resultPlainTree;
 let resultJson;
 
 beforeAll(() => {
-  const getFixturesPath = (filename) => { path.join(__dirname, '..', 'fixtures', filename);
-  };
-  const readFile = (filename) => { fs.readFileSync(getFixturesPath(filename), 'utf-8');
-  };
+  const getFixturesPath = (filename) => path.join(__dirname, '..', 'fixtures', filename);
+  const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
   resultDefault = readFile('resultDefault.txt');
   resultPlainTree = readFile('resultPlainTree.txt');
   resultJson = readFile('result.json');
@@ -26,5 +24,5 @@ test('plain Format', () => {
 });
 
 test('json Format', () => {
-  expect(gendiff('__tests__/fixtures/beforeJson.json', '__tests__/fixtures/afterJson.json', 'json')).toEqual(resultJSON);
+  expect(gendiff('__tests__/fixtures/beforeJson.json', '__tests__/fixtures/afterJson.json', 'json')).toEqual(resultJson);
 });
