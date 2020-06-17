@@ -7,9 +7,9 @@ test('default Format', () => {
 });
 
 test('plain Format', () => {
-  expect(gendiff('__tests__/fixtures/before1.json', '__tests__/fixtures/after1.json', 'plain')).toEqual(resultPlainTree);
+  expect(gendiff('__tests__/fixtures/beforePlain.json', '__tests__/fixtures/afterPlain.json', 'plain')).toEqual(resultPlainTree);
 });
 
 test('json Format', () => {
-  expect(gendiff('__tests__/fixtures/before2.json', '__tests__/fixtures/after2.json', 'json')).toEqual(resultJSON);
+  expect(gendiff('__tests__/fixtures/beforeJson.json', '__tests__/fixtures/afterJson.json', 'json')).toEqual(resultJSON);
 });
