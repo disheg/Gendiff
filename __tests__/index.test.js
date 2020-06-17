@@ -8,7 +8,7 @@ let resultPlainTree;
 let resultJson;
 
 beforeAll(() => {
-  const getFixturesPath = (filename) => path.join('./fixtures', filename);
+  const getFixturesPath = (filename) => path.join('__tests__', 'fixtures', filename);
   const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
   resultDefault = readFile('resultDefault.txt');
   resultPlainTree = readFile('resultPlainTree.txt');
