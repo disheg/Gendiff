@@ -3,14 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/index.js';
 
-const dirname = path.resolve();
-
 let resultDefault;
 let resultPlainTree;
 let resultJson;
 
 beforeAll(() => {
-  const getFixturesPath = (filename) => path.join(dirname, '..', '__tests__/fixtures', filename);
+  const getFixturesPath = (filename) => path.join('.', 'fixtures', filename);
   const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
   resultDefault = readFile('resultDefault.txt');
   resultPlainTree = readFile('resultPlainTree.txt');
