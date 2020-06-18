@@ -1,7 +1,7 @@
 import { test, expect, beforeAll } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
-import gendiff from '../src/index.js';
+import gendiff from '../index.js';
 
 const getFixturesPath = (filename) => path.join('__tests__', 'fixtures', filename);
 const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
