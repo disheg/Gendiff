@@ -3,26 +3,28 @@ import fs from 'fs';
 import path from 'path';
 import gendiff from '../src/index.js';
 
+const getFixturesPath = (filename) => path.join('__tests__', 'fixtures', filename);
+const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
+
+
 let resultDefault;
 let resultPlainTree;
 let resultJson;
 
 beforeAll(() => {
-  const getFixturesPath = (filename) => path.join('__tests__', 'fixtures', filename);
-  const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
   resultDefault = readFile('resultDefault.txt');
   resultPlainTree = readFile('resultPlainTree.txt');
   resultJson = readFile('result.json');
 });
 
 test('default Format', () => {
-  expect(gendiff('__tests__/fixtures/beforeDefault.ini', '__tests__/fixtures/afterDefault.yml')).toEqual(resultDefault);
+  expect(gendiff(readFile('beforeDefault.ini'), readFile('afterDefault.yml'))).toEqual(resultDefault);
 });
 
 test('plain Format', () => {
-  expect(gendiff('__tests__/fixtures/beforePlain.json', '__tests__/fixtures/afterPlain.json', 'plain')).toEqual(resultPlainTree);
+  expect(gendiff(readFile('beforePlain.json'), readFile('afterPlain.json'), 'plain'))).toEqual(resultPlainTree);
 });
 
 test('json Format', () => {
-  expect(gendiff('__tests__/fixtures/beforeJson.json', '__tests__/fixtures/afterJson.json', 'json')).toEqual(resultJson);
+  expect(gendiff(readFile('beforeJson.json'), readFile('afterJson.json'), 'json')).toEqual(resultJson);
 });
