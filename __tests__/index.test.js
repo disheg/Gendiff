@@ -22,7 +22,7 @@ test('default Format', () => {
 });
 
 test('plain Format', () => {
-  expect(gendiff(readFile('beforePlain.json'), readFile('afterPlain.json'), 'plain'))).toEqual(resultPlainTree);
+  expect(gendiff(readFile('beforePlain.json'), readFile('afterPlain.json'), 'plain')).toEqual(resultPlainTree);
 });
 
 test('json Format', () => {
