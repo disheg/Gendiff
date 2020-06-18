@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import render from './formatters/index.js';
-import parserToObj from './modules/parsers.js';
+import render from './src/formatters/index.js';
+import parserToObj from './src/modules/parsers.js';
 
 const makeType = (key, value, type = null, children = []) => {
   const result = {

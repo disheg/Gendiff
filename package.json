@@ -2,7 +2,6 @@
   "name": "frontend-project-lvl2",
   "version": "1.0.0",
   "description": "Hexlet-project 2",
-  "main": "src/index.js",
   "bin": {
     "gendiff": "src/bin/gendiff.js"
   },
