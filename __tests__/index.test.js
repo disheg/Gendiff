@@ -18,13 +18,13 @@ beforeAll(() => {
 });
 
 test('default Format', () => {
-  expect(gendiff(readFile('beforeDefault.ini'), readFile('afterDefault.yml'))).toEqual(resultDefault);
+  expect(gendiff(getFixturesPath('beforeDefault.ini'), getFixturesPath('afterDefault.yml'))).toEqual(resultDefault);
 });
 
 test('plain Format', () => {
-  expect(gendiff(readFile('beforePlain.json'), readFile('afterPlain.json'), 'plain')).toEqual(resultPlainTree);
+  expect(gendiff(getFixturesPath('beforePlain.json'), getFixturesPath('afterPlain.json'), 'plain')).toEqual(resultPlainTree);
 });
 
 test('json Format', () => {
-  expect(gendiff(readFile('beforeJson.json'), readFile('afterJson.json'), 'json')).toEqual(resultJson);
+  expect(gendiff(getFixturesPath('beforeJson.json'), getFixturesPath('afterJson.json'), 'json')).toEqual(resultJson);
 });
