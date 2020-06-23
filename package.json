@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Hexlet-project 2",
   "bin": {
-    "gendiff": "src/bin/gendiff.js"
+    "gendiff": "bin/gendiff.js"
   },
   "type": "module",
   "dependencies": {

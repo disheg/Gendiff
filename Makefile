@@ -5,8 +5,4 @@ lint:
 publish:
 	npm publish --dry-run
 gendiff:
-	npx src/bin/gendiff.js before.json after.json
-test:
-	npx -n --experimental-vm-modules jest
-test-coverage:
-	npx jest --coverage
+	npx bin/gendiff.js __tests__/fixtures/beforeJson.json __tests__/fixtures/afterJson.json

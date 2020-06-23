@@ -1,36 +1,43 @@
 import _ from 'lodash';
 
+const makeSpace = (depth) => ' '.repeat(depth);
+
 const hasChildren = (obj) => (obj.children.length !== 0);
 
-const stylishObj = (obj, space) => {
+const stylishObj = (obj, depth) => {
   const entries = Object.entries(obj);
   const result = entries.map(([key, value]) => {
-    if (_.isObject(value)) return `\n${' '.repeat(space + 2)}  ${key}: ${stylishObj(value, space + 4)}`;
-    return `\n${' '.repeat(space + 2)}  ${key}: ${value}`;
+    if (_.isObject(value)) return `\n${makeSpace(depth + 2)}  ${key}: ${stylishObj(value, depth + 4)}`;
+    return `\n${makeSpace(depth + 2)}  ${key}: ${value}`;
   });
-  return `{${result.join('')}\n${' '.repeat(space)}}`;
+  return `{${result.join('')}\n${makeSpace(depth)}}`;
 };
 
-const renderString = (obj, space) => {
-  const { key, type } = obj;
-  const value = _.isObject(obj.value)
-    ? stylishObj(obj.value, space + 2)
-    : obj.value;
-  const currentValue = _.isObject(obj.currentValue)
-    ? stylishObj(obj.currentValue, space + 2)
-    : obj.currentValue;
-  const beforeValue = _.isObject(obj.beforeValue)
-    ? stylishObj(obj.beforeValue, space + 2)
-    : obj.beforeValue;
+const stringify = (obj, depth, sign = ' ') => {
+  const { key } = obj;
+  const currentValue = _.isObject(obj.value.currentValue)
+    ? stylishObj(obj.value.currentValue, depth + 2)
+    : obj.value.currentValue;
+  const beforeValue = _.isObject(obj.value.beforeValue)
+    ? stylishObj(obj.value.beforeValue, depth + 2)
+    : obj.value.beforeValue;
+  if (beforeValue !== null) {
+    return `${makeSpace(depth)}+ ${key}: ${currentValue}\n${makeSpace(depth)}- ${key}: ${beforeValue}`;
+  }
+  return `${makeSpace(depth)}${sign} ${key}: ${currentValue}`;
+};
+
+const renderString = (obj, depth) => {
+  const { type } = obj;
   switch (type) {
     case 'unchanged':
-      return `${' '.repeat(space)}  ${key}: ${value}`;
+      return stringify(obj, depth);
     case 'deleted':
-      return `${' '.repeat(space)}- ${key}: ${value}`;
+      return stringify(obj, depth, '-');
     case 'added':
-      return `${' '.repeat(space)}+ ${key}: ${value}`;
+      return stringify(obj, depth, '+');
     case 'changed':
-      return `${' '.repeat(space)}+ ${key}: ${currentValue}\n${' '.repeat(space)}- ${key}: ${beforeValue}`;
+      return stringify(obj, depth);
     case 'nested':
       return null;
     default:
@@ -38,11 +45,11 @@ const renderString = (obj, space) => {
   }
 };
 
-const stylish = (obj, space = 0) => {
+const stylish = (obj, depth = 0) => {
   const render = obj.map((element) => {
-    if (hasChildren(element)) return `\n${' '.repeat(space + 2)}  ${element.key}: ${stylish(element.children, space + 4)}`;
-    return `\n${renderString(element, space + 2)}`;
+    if (hasChildren(element)) return `\n${makeSpace(depth + 2)}  ${element.key}: ${stylish(element.children, depth + 4)}`;
+    return `\n${renderString(element, depth + 2)}`;
   });
-  return `{${render.filter((element) => element !== null).join('')}\n${' '.repeat(space)}}`;
+  return `{${render.filter((element) => element !== null).join('')}\n${makeSpace(depth)}}`;
 };
 export default stylish;

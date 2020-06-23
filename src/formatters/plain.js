@@ -1,13 +1,18 @@
 import _ from 'lodash';
 
-const renderToType = (value) => (_.isObject(value) ? '[complex value]' : `'${value}'`);
+const stringify = (value) => (_.isObject(value) ? '[complex value]' : `'${value}'`);
 
 const plain = (obj, parent = '') => {
   const result = obj.map((element) => {
-    const { key, type, children } = element;
-    const value = renderToType(element.value);
-    const beforeValue = renderToType(element.beforeValue);
-    const currentValue = renderToType(element.currentValue);
+    const {
+      key,
+      value,
+      type,
+      children,
+    } = element;
+    const currentValue = stringify(value.currentValue);
+    const beforeValue = stringify(value.beforeValue);
+
     switch (type) {
       case 'unchanged':
         return null;
@@ -16,7 +21,7 @@ const plain = (obj, parent = '') => {
       case 'deleted':
         return `Property '${parent}${key}' was deleted`;
       case 'added':
-        return `Property '${parent}${key}' was added with value: ${value}`;
+        return `Property '${parent}${key}' was added with value: ${currentValue}`;
       case 'nested':
         return plain(children, `${parent}${key}.`);
       default:
