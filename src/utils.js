@@ -6,19 +6,19 @@ const readFile = (filePath) => fs.readFileSync(
   path.resolve(process.cwd(), filePath), 'utf-8',
 );
 
-const buildTree = (data1, data2) => {
-  const makeObj = (key, currentValue, beforeValue, type, children = []) => {
-    const result = {
-      key,
-      value: {
-        beforeValue,
-        currentValue,
-      },
-      type,
-      children,
-    };
-    return result;
+const makeObj = (key, currentValue, beforeValue, type, children = []) => {
+  return {
+    key,
+    value: {
+      beforeValue,
+      currentValue,
+    },
+    type,
+    children,
   };
+};
+
+const buildTree = (data1, data2) => {
   const keysOne = Object.keys(data1);
   const keysTwo = Object.keys(data2);
   const keys = _.union(keysOne, keysTwo);
