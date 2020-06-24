@@ -6,7 +6,7 @@ const readFile = (filePath) => fs.readFileSync(
   path.resolve(process.cwd(), filePath), 'utf-8',
 );
 
-const makeObj = (key, currentValue, beforeValue, type, children = []) => {
+const makeObj = (key, currentValue, beforeValue, type, children = []) => ({
   key,
   value: {
     beforeValue,
@@ -14,7 +14,7 @@ const makeObj = (key, currentValue, beforeValue, type, children = []) => {
   },
   type,
   children,
-};
+});
 
 const buildTree = (data1, data2) => {
   const keysOne = Object.keys(data1);
