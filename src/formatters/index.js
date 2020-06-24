@@ -8,7 +8,9 @@ export default (obj, format = stylish) => {
       return plain(obj);
     case 'json':
       return json(obj);
-    default:
+    case 'stylish':
       return stylish(obj);
+    default:
+      throw new Error(`Invalid format: ${formar}`)
   }
 };
