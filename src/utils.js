@@ -7,15 +7,13 @@ const readFile = (filePath) => fs.readFileSync(
 );
 
 const makeObj = (key, currentValue, beforeValue, type, children = []) => {
-  return {
-    key,
-    value: {
-      beforeValue,
-      currentValue,
-    },
-    type,
-    children,
-  };
+  key,
+  value: {
+    beforeValue,
+    currentValue,
+  },
+  type,
+  children,
 };
 
 const buildTree = (data1, data2) => {
