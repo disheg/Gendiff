@@ -1,14 +1,14 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-const parseToObj = (file, format) => {
+const parseToObj = (data, format) => {
   switch (format) {
-    case '.json':
-      return JSON.parse(file);
-    case '.yml':
-      return yaml.safeLoad(file);
-    case '.ini':
-      return ini.parse(file);
+    case 'json':
+      return JSON.parse(data);
+    case 'yml':
+      return yaml.safeLoad(data);
+    case 'ini':
+      return ini.parse(data);
     default:
       return new Error(`Invalid format: ${format}`);
   }

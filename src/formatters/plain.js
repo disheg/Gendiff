@@ -2,32 +2,33 @@ import _ from 'lodash';
 
 const stringify = (value) => (_.isObject(value) ? '[complex value]' : `'${value}'`);
 
-const plain = (obj, parent = '') => {
-  const result = obj.map((element) => {
-    const {
-      key,
-      value,
-      type,
-      children,
-    } = element;
-    const currentValue = stringify(value.currentValue);
-    const beforeValue = stringify(value.beforeValue);
-
-    switch (type) {
-      case 'unchanged':
-        return null;
-      case 'changed':
-        return `Property '${parent}${key}' was changed from ${beforeValue} to ${currentValue}`;
-      case 'deleted':
-        return `Property '${parent}${key}' was deleted`;
-      case 'added':
-        return `Property '${parent}${key}' was added with value: ${currentValue}`;
-      case 'nested':
-        return plain(children, `${parent}${key}.`);
-      default:
-        return new Error(`Unknown type: ${type}`);
-    }
-  });
-  return result.filter((element) => element !== null).join('\n');
+const renderPlain = (obj) => {
+  const iter = (inerObj, parent = '') => {
+    const result = inerObj.map((element) => {
+      const {
+        key,
+        beforeValue,
+        currentValue,
+        type,
+        children,
+      } = element;
+      switch (type) {
+        case 'unchanged':
+          return null;
+        case 'changed':
+          return `Property '${parent}${key}' was changed from ${stringify(beforeValue)} to ${stringify(currentValue)}`;
+        case 'deleted':
+          return `Property '${parent}${key}' was deleted`;
+        case 'added':
+          return `Property '${parent}${key}' was added with value: ${stringify(currentValue)}`;
+        case 'nested':
+          return iter(children, `${parent}${key}.`);
+        default:
+          return new Error(`Unknown type: ${type}`);
+      }
+    });
+    return result.filter((element) => element !== null).join('\n');
+  };
+  return iter(obj);
 };
-export default plain;
+export default renderPlain;

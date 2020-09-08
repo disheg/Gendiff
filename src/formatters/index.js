@@ -1,16 +1,16 @@
-import plain from './plain.js';
-import stylish from './stylish.js';
-import json from './json.js';
+import renderPlain from './plain.js';
+import renderPretty from './pretty.js';
+import renderJson from './json.js';
 
-export default (obj, format = stylish) => {
+export default (obj, format = 'pretty') => {
   switch (format) {
     case 'plain':
-      return plain(obj);
+      return renderPlain(obj);
     case 'json':
-      return json(obj);
-    case 'stylish':
-      return stylish(obj);
+      return renderJson(obj);
+    case 'pretty':
+      return renderPretty(obj);
     default:
-      throw new Error(`Invalid format: ${formar}`)
+      throw new Error(`Invalid format: ${format}`);
   }
 };
