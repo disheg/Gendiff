@@ -4,10 +4,10 @@ import gendiff from '../index.js';
 
 program
   .version('0.0.1')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format', 'stylish')
   .arguments('<filepath1> <filepath2>')
-  .action((file1, file2) => {
-    const result = gendiff(file1, file2, program.format);
+  .action((filepath1, filepath2) => {
+    const result = gendiff(filepath1, filepath2, program.format);
     console.log(result);
   })
   .description('Compares two configuration files and shows a difference')

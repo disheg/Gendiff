@@ -4,7 +4,7 @@ const stringify = (value) => (_.isObject(value) ? '[complex value]' : `'${value}
 
 const renderPlain = (obj) => {
   const iter = (inerObj, parent = '') => {
-    const result = inerObj.map((element) => {
+    const result = inerObj.flatMap((element) => {
       const {
         key,
         beforeValue,
@@ -14,7 +14,7 @@ const renderPlain = (obj) => {
       } = element;
       switch (type) {
         case 'unchanged':
-          return null;
+          return [];
         case 'changed':
           return `Property '${parent}${key}' was changed from ${stringify(beforeValue)} to ${stringify(currentValue)}`;
         case 'deleted':
@@ -27,7 +27,7 @@ const renderPlain = (obj) => {
           return new Error(`Unknown type: ${type}`);
       }
     });
-    return result.filter((element) => element !== null).join('\n');
+    return result.join('\n');
   };
   return iter(obj);
 };
