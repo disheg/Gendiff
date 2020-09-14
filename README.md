@@ -1,4 +1,4 @@
-# frontend-project-lvl2
+# Gendiff
 <a href="https://github.com/disheg/frontend-project/actions">
 <img src="https://github.com/disheg/frontend-project/workflows/Node/badge.svg" /></a>
 <a href="https://codeclimate.com/github/disheg/frontend-project/maintainability"><img src="https://api.codeclimate.com/v1/badges/af58a95d23213128e353/maintainability" /></a>
