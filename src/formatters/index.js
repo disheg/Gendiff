@@ -2,8 +2,8 @@ import renderPlain from './plain.js';
 import renderStylish from './stylish.js';
 import renderJson from './json.js';
 
-export default (obj, format = 'stylish') => {
-  switch (format) {
+export default (obj, formatName = 'stylish') => {
+  switch (formatName) {
     case 'plain':
       return renderPlain(obj);
     case 'json':
@@ -11,6 +11,6 @@ export default (obj, format = 'stylish') => {
     case 'stylish':
       return renderStylish(obj);
     default:
-      throw new Error(`Invalid format: ${format}`);
+      throw new Error(`Invalid format: ${formatName}`);
   }
 };
