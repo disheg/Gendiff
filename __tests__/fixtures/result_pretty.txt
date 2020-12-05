@@ -5,4 +5,12 @@
   - proxy: 123.234.53.22
   - follow: false
   + verbose: true
+  + group: {
+      value: 1
+      value3: 2
+      group2: {
+        value: 0
+        value1: 2
+      }
+    }
 }

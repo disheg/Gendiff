@@ -1,3 +1,9 @@
 timeout: 20
 verbose: true
+group:
+  value: 1
+  value3: 2
+  group2:
+    value: 0
+    value1: 2
 host: hexlet.io
