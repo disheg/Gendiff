@@ -13,6 +13,14 @@ const buildTree = (data1, data2) => {
         type: 'deleted',
       };
     }
+    if (!_.has(data1, key)) {
+      return {
+        key,
+        beforeValue: null,
+        currentValue: data2[key],
+        type: 'added',
+      };
+    }
     if (_.isObject(data1[key]) && _.isObject(data2[key])) {
       return {
         key,
@@ -20,14 +28,6 @@ const buildTree = (data1, data2) => {
         currentValue: null,
         type: 'nested',
         children: buildTree(data1[key], data2[key]),
-      };
-    }
-    if (!_.has(data1, key)) {
-      return {
-        key,
-        beforeValue: null,
-        currentValue: data2[key],
-        type: 'added',
       };
     }
     if (data1[key] === data2[key]) {
