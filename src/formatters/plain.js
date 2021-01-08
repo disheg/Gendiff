@@ -7,8 +7,6 @@ const renderPlain = (obj) => {
     const result = inerObj.flatMap((element) => {
       const {
         key,
-        beforeValue,
-        currentValue,
         type,
         children,
       } = element;
@@ -16,11 +14,11 @@ const renderPlain = (obj) => {
         case 'unchanged':
           return [];
         case 'changed':
-          return `Property '${parent}${key}' was changed from ${stringify(beforeValue)} to ${stringify(currentValue)}`;
+          return `Property '${parent}${key}' was changed from ${stringify(element.beforeValue)} to ${stringify(element.currentValue)}`;
         case 'deleted':
           return `Property '${parent}${key}' was deleted`;
         case 'added':
-          return `Property '${parent}${key}' was added with value: ${stringify(currentValue)}`;
+          return `Property '${parent}${key}' was added with value: ${stringify(element.value)}`;
         case 'nested':
           return iter(children, `${parent}${key}.`);
         default:

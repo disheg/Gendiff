@@ -21,11 +21,11 @@ const renderStylish = (obj) => {
     const output = innerObj.flatMap((element) => {
       switch (element.type) {
         case 'unchanged':
-          return `${makeSpace(depth)}  ${element.key}: ${stringify(element.currentValue, depth + 1)}`;
+          return `${makeSpace(depth)}  ${element.key}: ${stringify(element.value, depth + 1)}`;
         case 'deleted':
-          return `${makeSpace(depth)}- ${element.key}: ${stringify(element.currentValue, depth + 1)}`;
+          return `${makeSpace(depth)}- ${element.key}: ${stringify(element.value, depth + 1)}`;
         case 'added':
-          return `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`;
+          return `${makeSpace(depth)}+ ${element.key}: ${stringify(element.value, depth + 1)}`;
         case 'changed':
           return [
             `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`,
