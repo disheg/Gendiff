@@ -15,7 +15,7 @@ const stringify = (obj, depth = 0) => {
 
 const renderStylish = (obj) => {
   const iter = (innerObj, depth = 0) => {
-    const output = innerObj.map((element) => {
+    const output = innerObj.flatMap((element) => {
       switch (element.type) {
         case 'unchanged':
           return `${makeSpace(depth)}  ${element.key}: ${stringify(element.currentValue, depth + 1)}`;
@@ -24,7 +24,10 @@ const renderStylish = (obj) => {
         case 'added':
           return `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`;
         case 'changed':
-          return `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}\n${makeSpace(depth)}- ${element.key}: ${stringify(element.beforeValue, depth + 1)}`;
+        return [
+          `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`,
+          `${makeSpace(depth)}- ${element.key}: ${stringify(element.beforeValue, depth + 1)}`
+          ];
         case 'nested':
           return `${makeSpace(depth)}  ${element.key}: ${iter(element.children, depth + 1)}`;
         default:
