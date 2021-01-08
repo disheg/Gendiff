@@ -29,7 +29,7 @@ const renderStylish = (obj) => {
         case 'changed':
           return [
             `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`,
-        `${makeSpace(depth)}- ${element.key}: ${stringify(element.beforeValue, depth + 1)}`,
+            `${makeSpace(depth)}- ${element.key}: ${stringify(element.beforeValue, depth + 1)}`,
           ];
         case 'nested':
           return `${makeSpace(depth)}  ${element.key}: ${iter(element.children, depth + 1)}`;
