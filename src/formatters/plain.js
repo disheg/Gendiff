@@ -4,6 +4,7 @@ const stringify = (value) => {
   if (_.isObject(value)) return '[complex value]';
   if (_.isBoolean(value) || _.isNull(value)) return value;
   return `'${value}'`;
+};
 
 const renderPlain = (obj) => {
   const iter = (inerObj, parent = '') => {
