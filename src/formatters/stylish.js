@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
+const indent = (depth, spacesCount = 4) => depth === 0 ? '' : ' '.repeat(depth * spacesCount - 2);
 
 const stringify = (obj, depth = 0) => {
   if (!_.isObject(obj)) {
