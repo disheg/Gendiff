@@ -1,19 +1,14 @@
 import _ from 'lodash';
 
-const makeSpaceForBrackets = (depth) => ' '.repeat(4 * depth);
-
-const makeSpace = (depth) => {
-  const startDepth = '  ';
-  return startDepth + ' '.repeat(4 * depth);
-};
+const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
 
 const stringify = (obj, depth = 0) => {
   if (!_.isObject(obj)) {
     return obj;
   }
   const entries = Object.entries(obj);
-  const result = entries.map(([key, value]) => `\n${makeSpace(depth)}  ${key}: ${stringify(value, depth + 1)}`);
-  return `{${result.join('')}\n  ${makeSpace(depth - 1)}}`;
+  const result = entries.map(([key, value]) => `${indent(depth)}  ${key}: ${stringify(value, depth + 1)}`);
+  return `{${result.join('\n')}\n  ${indent(depth - 1)}}`;
 };
 
 const renderStylish = (obj) => {
@@ -21,23 +16,23 @@ const renderStylish = (obj) => {
     const output = innerObj.flatMap((element) => {
       switch (element.type) {
         case 'unchanged':
-          return `${makeSpace(depth)}  ${element.key}: ${stringify(element.value, depth + 1)}`;
+          return `${indent(depth)}  ${element.key}: ${stringify(element.value, depth + 1)}`;
         case 'deleted':
-          return `${makeSpace(depth)}- ${element.key}: ${stringify(element.value, depth + 1)}`;
+          return `${indent(depth)}- ${element.key}: ${stringify(element.value, depth + 1)}`;
         case 'added':
-          return `${makeSpace(depth)}+ ${element.key}: ${stringify(element.value, depth + 1)}`;
+          return `${indent(depth)}+ ${element.key}: ${stringify(element.value, depth + 1)}`;
         case 'changed':
           return [
-            `${makeSpace(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`,
-            `${makeSpace(depth)}- ${element.key}: ${stringify(element.beforeValue, depth + 1)}`,
+            `${indent(depth)}+ ${element.key}: ${stringify(element.currentValue, depth + 1)}`,
+            `${indent(depth)}- ${element.key}: ${stringify(element.beforeValue, depth + 1)}`,
           ];
         case 'nested':
-          return `${makeSpace(depth)}  ${element.key}: ${iter(element.children, depth + 1)}`;
+          return `${indent(depth)}  ${element.key}: ${iter(element.children, depth + 1)}`;
         default:
           return new Error(`Unknown type: ${element.type}`);
       }
     });
-    return `{\n${output.join('\n')}\n${makeSpaceForBrackets(depth)}}`;
+    return `{\n${output.join('\n')}\n${indent(depth)}}`;
   };
   return iter(obj);
 };
