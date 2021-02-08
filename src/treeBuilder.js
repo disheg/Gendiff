@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const buildTree = (data1, data2) => {
+const buildChildrenTree = (data1, data2) => {
   const keysOne = Object.keys(data1);
   const keysTwo = Object.keys(data2);
   const keys = _.union(keysOne, keysTwo);
@@ -8,39 +8,45 @@ const buildTree = (data1, data2) => {
     if (!_.has(data2, key)) {
       return {
         key,
-        value: data1[key],
         type: 'deleted',
+        value: data1[key],
       };
     }
     if (!_.has(data1, key)) {
       return {
         key,
-        value: data2[key],
         type: 'added',
+        value: data2[key],
       };
     }
     if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
       return {
         key,
         type: 'nested',
-        children: buildTree(data1[key], data2[key]),
+        children: buildChildrenTree(data1[key], data2[key]),
       };
     }
-    if (data1[key] === data2[key]) {
+    if (_.isEqual(data1[key], data2[key])) {
       return {
         key,
-        value: data1[key],
         type: 'unchanged',
+        value: data1[key],
       };
     }
     return {
       key,
-      beforeValue: data1[key],
-      currentValue: data2[key],
       type: 'changed',
+      value1: data1[key],
+      value2: data2[key],
     };
   });
-  return result;
+
+  return _.sortBy(result, 'key');
 };
+
+const buildTree = (data1, data2) => ({
+  type: 'root',
+  children: _.sortBy(buildChildrenTree(data1, data2), 'key'),
+});
 
 export default buildTree;
