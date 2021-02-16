@@ -6,7 +6,7 @@ const stringify = (data, depth = 0) => {
   if (!_.isObject(data)) {
     return data;
   }
-const entries = Object.entries(data);
+  const entries = Object.entries(data);
   const result = entries.map(([key, value]) => `${indent(depth)}  ${key}: ${stringify(value, depth + 1)}`);
   return `{\n${result.join('\n')}\n  ${indent(depth - 1)}}`;
 };
