@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
-const indent = (depth, spacesCount = 2) => ' '.repeat(depth * 4 - spacesCount);
+const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
 
-const stringify = (obj, depth = 0) => {
-  if (!_.isObject(obj)) {
-    return obj;
+const stringify = (data, depth = 0) => {
+  if (!_.isObject(data)) {
+    return data;
   }
-  const entries = Object.entries(obj);
+  const entries = Object.entries(data);
   const result = entries.map(([key, value]) => `${indent(depth)}  ${key}: ${stringify(value, depth + 1)}`);
   return `{\n${result.join('\n')}\n  ${indent(depth - 1)}}`;
 };
