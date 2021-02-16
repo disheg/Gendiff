@@ -30,7 +30,7 @@ const renderStylish = (obj) => {
       case 'nested':
         return `${indent(depth)}  ${innerObj.key}: {\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n  ${indent(depth)}}`;
       default:
-        return new Error(`Unknown type: ${element.type}`);
+        return new Error(`Unknown type: ${innerObj.type}`);
     }
   };
   return iter(obj);
