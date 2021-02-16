@@ -34,6 +34,6 @@ const renderStylish = (obj) => {
     });
     return output;
   };
-  return `{\n${iter(obj.children).join('\n')}\n}`.join('');
+  return `{\n${iter(obj.children).join('\n')}\n}`;
 };
 export default renderStylish;
