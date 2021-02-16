@@ -13,27 +13,26 @@ const stringify = (data, depth = 0) => {
 
 const renderStylish = (obj) => {
   const iter = (innerObj, depth = 1) => {
-    const output = innerObj.flatMap((element) => {
-      switch (element.type) {
+    switch (innerObj.type) {
+        case 'root':
+          return `{\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n}`;
         case 'unchanged':
-          return `${indent(depth)}  ${element.key}: ${stringify(element.value, depth + 1)}`;
+          return `${indent(depth)}  ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
         case 'deleted':
-          return `${indent(depth)}- ${element.key}: ${stringify(element.value, depth + 1)}`;
+          return `${indent(depth)}- ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
         case 'added':
-          return `${indent(depth)}+ ${element.key}: ${stringify(element.value, depth + 1)}`;
+          return `${indent(depth)}+ ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
         case 'changed':
           return [
-            `${indent(depth)}- ${element.key}: ${stringify(element.value1, depth + 1)}`,
-            `${indent(depth)}+ ${element.key}: ${stringify(element.value2, depth + 1)}`,
+            `${indent(depth)}- ${innerObj.key}: ${stringify(innerObj.value1, depth + 1)}`,
+            `${indent(depth)}+ ${innerObj.key}: ${stringify(innerObj.value2, depth + 1)}`,
           ];
         case 'nested':
-          return `${indent(depth)}  ${element.key}: {\n${iter(element.children, depth + 1).join('\n')}\n  ${indent(depth)}}`;
+          return `${indent(depth)}  ${innerObj.key}: {\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n  ${indent(depth)}}`;
         default:
           return new Error(`Unknown type: ${element.type}`);
       }
-    });
-    return output;
   };
-  return `{\n${iter(obj.children).join('\n')}\n}`;
+  return iter(obj);
 };
 export default renderStylish;

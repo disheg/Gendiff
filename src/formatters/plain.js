@@ -21,7 +21,7 @@ const renderPlain = (obj) => {
         value2 = null,
         children,
       } = element;
-      switch (type) {
+    switch (type) {
         case 'unchanged':
           return [];
         case 'changed':
