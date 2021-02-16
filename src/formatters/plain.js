@@ -22,8 +22,6 @@ const renderPlain = (obj) => {
         children,
       } = element;
       switch (type) {
-        case 'root':
-          return iter(children);
         case 'unchanged':
           return [];
         case 'changed':
@@ -40,6 +38,6 @@ const renderPlain = (obj) => {
     });
     return result.join('\n');
   };
-  return iter([obj]);
+  return iter(obj.children);
 };
 export default renderPlain;
