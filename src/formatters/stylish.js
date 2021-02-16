@@ -14,24 +14,24 @@ const stringify = (data, depth = 0) => {
 const renderStylish = (obj) => {
   const iter = (innerObj, depth = 1) => {
     switch (innerObj.type) {
-        case 'root':
-          return `{\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n}`;
-        case 'unchanged':
-          return `${indent(depth)}  ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
-        case 'deleted':
-          return `${indent(depth)}- ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
-        case 'added':
-          return `${indent(depth)}+ ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
-        case 'changed':
-          return [
-            `${indent(depth)}- ${innerObj.key}: ${stringify(innerObj.value1, depth + 1)}`,
-            `${indent(depth)}+ ${innerObj.key}: ${stringify(innerObj.value2, depth + 1)}`,
-          ];
-        case 'nested':
-          return `${indent(depth)}  ${innerObj.key}: {\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n  ${indent(depth)}}`;
-        default:
-          return new Error(`Unknown type: ${element.type}`);
-      }
+      case 'root':
+        return `{\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n}`;
+      case 'unchanged':
+        return `${indent(depth)}  ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
+      case 'deleted':
+        return `${indent(depth)}- ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
+      case 'added':
+        return `${indent(depth)}+ ${innerObj.key}: ${stringify(innerObj.value, depth + 1)}`;
+      case 'changed':
+        return [
+          `${indent(depth)}- ${innerObj.key}: ${stringify(innerObj.value1, depth + 1)}`,
+          `${indent(depth)}+ ${innerObj.key}: ${stringify(innerObj.value2, depth + 1)}`,
+        ];
+      case 'nested':
+        return `${indent(depth)}  ${innerObj.key}: {\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n  ${indent(depth)}}`;
+      default:
+        return new Error(`Unknown type: ${element.type}`);
+    }
   };
   return iter(obj);
 };
