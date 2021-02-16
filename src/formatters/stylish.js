@@ -12,7 +12,7 @@ const stringify = (data, depth = 0) => {
 };
 
 const renderStylish = (obj) => {
-  const iter = (innerObj, depth = 1) => {
+  const iter = (innerObj, depth = 0) => {
     switch (innerObj.type) {
       case 'root':
         return `{\n${innerObj.children.flatMap((child) => iter(child, depth + 1)).join('\n')}\n}`;
