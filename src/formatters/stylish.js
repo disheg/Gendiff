@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
 
-const stringify = (data, depth = 0) => {
+const stringify = (data, depth) => {
   if (!_.isObject(data)) {
     return data;
   }
