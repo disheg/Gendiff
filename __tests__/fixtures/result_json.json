@@ -1,1 +1,0 @@
-[{"key":"name","value":"Petya","type":"unchanged"},{"key":"age","beforeValue":30,"currentValue":32,"type":"changed"},{"key":"city","value":"Stockholm","type":"unchanged"},{"key":"job","value":"Microsoft","type":"added"}]
