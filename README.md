@@ -1,9 +1,9 @@
 # Gendiff
 This utility is determined the difference between two data structures
 <h2></h2>
-<a href="https://github.com/disheg/frontend-project/actions">
-<img src="https://github.com/disheg/frontend-project/workflows/Node/badge.svg" /></a>
-<a href="https://codeclimate.com/github/disheg/frontend-project/maintainability"><img src="https://api.codeclimate.com/v1/badges/af58a95d23213128e353/maintainability" /></a>
+<a href="https://github.com/disheg/Gendiff/actions">
+<img src="https://github.com/disheg/Gendiff/workflows/Node/badge.svg" /></a>
+<a href="https://codeclimate.com/github/disheg/Gendiff/maintainability"><img src="https://api.codeclimate.com/v1/badges/af58a95d23213128e353/maintainability" /></a>
 <h2>Setup</h2>
 <code>$ make install</code>
 <h2>Run</h2>
